@@ -6,7 +6,6 @@
 	box-sizing: border-box;
 }
 
-
 .wrapp {
 	padding: 15px;
 }
@@ -16,10 +15,18 @@
 	margin: 0 auto;
 }
 
+.title {
+	font-size: 36px;
+	text-align: center;
+	padding: 4px;
+}
+
 .cat {
 	text-align: center;
 }
-
+.cat__title {
+	font-size: 20px;
+}
 .img__wrapper {
 	max-width: 350px;
 	margin: 0 auto;
