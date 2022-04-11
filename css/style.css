@@ -37,6 +37,8 @@ ul {
 
 .cat {
 	text-align: center;
+	/* Solve problem with animation */
+	/* transition: all 1s ease-in; */
 }
 .cat__title {
 	font-size: 20px;

@@ -1,6 +1,5 @@
 window.addEventListener('load', function(e){
     let counter = this.document.querySelector('.cat__cliks');
-    let numberOfClick = 0;
     let cats = document.querySelectorAll('.cat');
     let catContainer = document.querySelector('.card__container');
     let objectArr = [];
@@ -70,7 +69,6 @@ window.addEventListener('load', function(e){
 
     function showHide(element){
       let block = element;
-      console.log(block);
       if(block.classList.contains("hide")){
         block.classList.remove('hide');
       }else {
