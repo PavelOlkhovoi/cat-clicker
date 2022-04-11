@@ -36,3 +36,7 @@
 	max-width: 100%;
 	cursor: pointer;
 }
+
+.card__container.hide {
+	display: none;
+}

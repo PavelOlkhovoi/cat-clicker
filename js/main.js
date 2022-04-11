@@ -27,7 +27,7 @@ window.addEventListener('load', function(e){
       let newCat = cat(name);
       objectArr.push(newCat);
     }
-
+    showHide('.card__container');
     catContainer.addEventListener('click', counterAdd);
 
     function counterAdd(event){
@@ -48,6 +48,16 @@ window.addEventListener('load', function(e){
       let card = image.closest('.cat');
       let count = card.querySelector('.cat__cliks');
       count.innerHTML = sumOfClick;
+    }
+
+    function showHide(element){
+      let block = document.querySelector(element);
+      console.log(block);
+      if(block.classList.contains("hide")){
+        block.classList.remove('hide');
+      }else {
+        block.classList.add('hide');
+      }
     }
 
 });
