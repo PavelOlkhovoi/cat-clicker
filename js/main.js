@@ -3,20 +3,20 @@ window.addEventListener('load', function(e){
     let numberOfClick = 0;
     let cats = document.querySelectorAll('.cat');
     let catContainer = document.querySelector('.card__container');
-    let objectArr = []
+    let objectArr = [];
+    let lists = document.getElementsByClassName('list-cats__name');
 
     function cat(catName) {
       return {
         name: catName,
         click: 0,
         counter: function(){
-          this.click ++;
+           this.click ++;
         }
       }
     }
 
-    let testCat = cat('Test')
-
+    
     // Create Cats objects
     for(let i = 0; i < cats.length; i++){
       let card = cats[i];
@@ -26,8 +26,22 @@ window.addEventListener('load', function(e){
       img.setAttribute('data-id', name);
       let newCat = cat(name);
       objectArr.push(newCat);
+
+      // Add the names list
+      addCatInList(name);
     }
-    showHide('.card__container');
+
+
+    for(let item of lists){
+      item.addEventListener('click', ()=> {
+        let id = item.dataset.listid;
+        let conectedImg = document.querySelector(`[data-id="${id}"]`);
+        let card = findCard(conectedImg);
+        showHide(card);
+      })
+    }
+
+
     catContainer.addEventListener('click', counterAdd);
 
     function counterAdd(event){
@@ -38,26 +52,39 @@ window.addEventListener('load', function(e){
         let obj = objectArr[i];
         if(name === obj.name){
           obj.counter();
-          console.log(obj.click);
           renderCounter(obj.click, img);
         }
       }
     }
 
     function renderCounter(sumOfClick, image){
-      let card = image.closest('.cat');
+      let card = findCard(image);
       let count = card.querySelector('.cat__cliks');
       count.innerHTML = sumOfClick;
     }
 
+    function findCard(image){
+      let card = image.closest('.cat');
+      return card;
+    }
+
     function showHide(element){
-      let block = document.querySelector(element);
+      let block = element;
       console.log(block);
       if(block.classList.contains("hide")){
         block.classList.remove('hide');
       }else {
         block.classList.add('hide');
       }
+    }
+
+    function addCatInList(name){
+      let ul = document.querySelector('.list-cats');
+      let li = document.createElement('li');
+      li.classList.add('list-cats__name');
+      li.innerHTML = name;
+      li.setAttribute('data-listId', name);
+      ul.insertAdjacentElement('beforeend', li);
     }
 
 });
