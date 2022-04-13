@@ -1,88 +1,81 @@
-window.addEventListener('load', function(e){
-    let counter = this.document.querySelector('.cat__cliks');
-    let cats = document.querySelectorAll('.cat');
-    let catContainer = document.querySelector('.card__container');
-    let objectArr = [];
-    let lists = document.getElementsByClassName('list-cats__name');
+(function(){
+    let data = {
+        addCat: function(newName, img){
+          let id = this.newId();
+          let cat = {
+            name: newName,
+            catId: `${newName}${id}`,
+            click: 0,
+            img: img
+          };
 
-    function cat(catName) {
-      return {
-        name: catName,
-        click: 0,
-        counter: function(){
-           this.click ++;
+          this.catsArr.push(cat);
+        },
+        catsArr: [],
+        lastId: 0,
+        newId: function(){
+          let id = ++this.lastId;
+          this.lastId = id;
+          return this.lastId;
         }
-      }
-    }
+    };
+
+    let octopus = {
+        init: function(){
+          let Jeka = data.addCat('Jeka', "third.jpg");
+          let makki = data.addCat('Makki', 'secondcat.jpg');
+          let vadim = data.addCat('Vadim', '625069434_c813129673_k.jpg');
+          let lolala = data.addCat('Lolola', 'forth.jpg');
+          let mamut = data.addCat('Mamut', 'fifth.jpg');
+          this.collectCat('card__container');
+        },
+        // CSS: class of container
+        collectCat: function(container){
+          let place = document.querySelector(`.${container}`);
+          for(let cat of data.catsArr){
+            let block = view.card(cat.catId, cat.img, cat.name, cat.click);
+            view.render(block, container);
+          }
+
+          place.addEventListener('click', (e)=> {
+              let target = e.target;
+              let card = target.closest('.cat');
+              let cardId = card.dataset.catid;
+              let clickTitle = card.querySelector('.cat__cliks');
+              for(let cat of data.catsArr){
+                  if(cat.catId == cardId){
+                    let newClick = ++cat.click;
+                    clickTitle.innerHTML = newClick;
+                  }
+              }
+          })
+        }
+    };
 
     
-    // Create Cats objects
-    for(let i = 0; i < cats.length; i++){
-      let card = cats[i];
-      let name = card.querySelector('.cat__title').textContent;
-      let img = card.querySelector('.img__foto');
-      // Connect the image to the new object
-      img.setAttribute('data-id', name);
-      let newCat = cat(name);
-      objectArr.push(newCat);
+    // img : third.jpg
 
-      // Add the names list
-      addCatInList(name);
-    }
-
-
-    for(let item of lists){
-      item.addEventListener('click', ()=> {
-        let id = item.dataset.listid;
-        let conectedImg = document.querySelector(`[data-id="${id}"]`);
-        let card = findCard(conectedImg);
-        showHide(card);
-      })
-    }
-
-
-    catContainer.addEventListener('click', counterAdd);
-
-    function counterAdd(event){
-      let img = event.target;
-      let name = img.dataset.id;
-      
-      for(let i = 0; i < objectArr.length; i++){
-        let obj = objectArr[i];
-        if(name === obj.name){
-          obj.counter();
-          renderCounter(obj.click, img);
+    let view = {
+        card: function(catId, img, name, counter = 0){
+          // TODO: delete class hide or add
+          let card = `<div class="cat" data-catId=${catId}>
+          <div class="cat__img img">
+              <div class="img__wrapper">
+                  <img src="./img/${img}" alt="cat ${name}" class="img__foto">
+              </div>
+          </div>
+          <h2 class="cat__title title">${name}</h2>
+          <p class="cat__cliks">${counter}</p>
+          </div>`;
+          return card;
+        },
+        // location css selector
+        render: function(html, location){
+            let container = document.querySelector(`.${location}`);
+            container.insertAdjacentHTML('beforeend', html)
         }
-      }
-    }
 
-    function renderCounter(sumOfClick, image){
-      let card = findCard(image);
-      let count = card.querySelector('.cat__cliks');
-      count.innerHTML = sumOfClick;
     }
-
-    function findCard(image){
-      let card = image.closest('.cat');
-      return card;
-    }
-
-    function showHide(element){
-      let block = element;
-      if(block.classList.contains("hide")){
-        block.classList.remove('hide');
-      }else {
-        block.classList.add('hide');
-      }
-    }
-
-    function addCatInList(name){
-      let ul = document.querySelector('.list-cats');
-      let li = document.createElement('li');
-      li.classList.add('list-cats__name');
-      li.innerHTML = name;
-      li.setAttribute('data-listId', name);
-      ul.insertAdjacentElement('beforeend', li);
-    }
-
-});
+    
+    octopus.init();
+})();
